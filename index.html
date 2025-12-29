@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express 5 Frontend</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; }
+        button { background: #6e57e0; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        button:hover { background: #5a46c7; }
+        #output { margin-top: 20px; font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Backend Integration</h1>
+        <button id="getData">Fetch Data from Server</button>
+        <div id="output">Click the button to see the server response.</div>
+    </div>
+
+    <script type="module">
+        // Using ES6 Arrow Functions and Async/Await
+        const btn = document.querySelector('#getData');
+        const output = document.querySelector('#output');
+
+        const getServerData = async () => {
+            try {
+                output.innerText = "Connecting...";
+                
+                // Fetching from your server port 8080
+                const response = await fetch('http://localhost:8080/');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Displaying the result
+                output.innerHTML = `
+                    <p style="color: green;">Success!</p>
+                    <p>${data.message}</p>
+                    <small>Server Time: ${data.timestamp}</small>
+                `;
+            } catch (error) {
+                console.error("Fetch error:", error);
+                output.innerHTML = `<p style="color: red;">Error: Could not reach server.</p>`;
+            }
+        };
+
+        btn.addEventListener('click', getServerData);
+    </script>
+</body>
+</html>
