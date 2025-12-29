@@ -30,7 +30,9 @@
                 output.innerText = "Connecting...";
                 
                 // Fetching from your server port 8080
-                const response = await fetch('http://localhost:8080/');
+                const PORT=8080;
+                const Server = `http://localhost:${PORT}`;
+                const response = await fetch(Server);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
